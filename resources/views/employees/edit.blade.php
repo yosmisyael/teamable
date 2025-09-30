@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Employee</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+@extends('master')
+
+@section('title')
+    {{ $title }}
+@endsection
+
+@section('style')
     <style>
         .material-input {
             transition: all 0.3s ease;
@@ -69,30 +68,10 @@
             height: 300px;
         }
     </style>
-</head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-blue-500 p-2 rounded-lg">
-                        <span class="material-icons text-white text-2xl">people</span>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Employee Management</h1>
-                        <p class="text-gray-600">Manage team effectively</p>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                    <span class="material-icons text-blue-500">business</span>
-                    <span>3124500039 - Misyael Yosevian Wiarda</span>
-                </div>
-            </div>
-        </div>
-    </header>
+@endsection
 
-    <!-- Edit Employee Form -->
+@section('content')
+    {{--  Edit Form  --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-8">
             <div class="bg-white rounded-2xl card-shadow p-8">
@@ -265,6 +244,4 @@
         });
 
     </script>
-</body>
-</html>
-
+@endsection

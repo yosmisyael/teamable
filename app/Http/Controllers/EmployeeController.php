@@ -15,6 +15,7 @@ class EmployeeController extends Controller
     public function index(): View
     {
         $employees = Employee::query()->latest()->paginate(5);
+
         $inactiveEmployees = Employee::query()->onlyTrashed()->count();
 
         return view('employees.index', compact('employees', 'inactiveEmployees'));
@@ -25,7 +26,9 @@ class EmployeeController extends Controller
      */
     public function create(): View
     {
-        return view('employees.create');
+        $title = 'Add Employee';
+
+        return view('employees.create', compact('title'));
     }
 
     /**
@@ -51,8 +54,9 @@ class EmployeeController extends Controller
      */
     public function show(string $id): View
     {
+        $title = 'Employee Details';
         $employee = Employee::query()->find($id);
-        return view('employees.show', compact('employee'));
+        return view('employees.show', compact('employee', 'title'));
     }
 
     /**
@@ -60,9 +64,11 @@ class EmployeeController extends Controller
      */
     public function edit(string $id): View
     {
+        $title = 'Edit Employee Details';
+
         $employee = Employee::query()->find($id);
 
-        return view('employees.edit', compact('employee'));
+        return view('employees.edit', compact('employee', 'title'));
     }
 
     /**

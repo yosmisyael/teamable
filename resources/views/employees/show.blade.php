@@ -1,14 +1,13 @@
 @php
     use Carbon\Carbon;
 @endphp
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Employee Details</title>
-    @vite('resources/css/app.css')
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+@extends('master')
+
+@section('title')
+    {{ $title }}
+@endsection
+
+@section('style')
     <style>
         .card-shadow {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -123,38 +122,11 @@
             background: #e5e7eb;
         }
     </style>
-</head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('employees.index') ?? '#' }}"
-                       class="p-2 text-blue-600 hover:bg-blue-100 rounded-full transition-colors duration-200"
-                       title="Back to Employee List">
-                        <span class="material-icons text-2xl">arrow_back</span>
-                    </a>
-                    <div class="flex items-center space-x-3">
-                        <div class="bg-blue-500 p-2 rounded-lg">
-                            <span class="material-icons text-white text-2xl">person</span>
-                        </div>
-                        <div>
-                            <h1 class="text-3xl font-bold text-gray-900">Employee Details</h1>
-                            <p class="text-gray-600">Complete employee information</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                    <span class="material-icons text-blue-500">business</span>
-                    <span>3124500039 - Misyael Yosevian Wiarda</span>
-                </div>
-            </div>
-        </div>
-    </header>
+@endsection
 
+@section('content')
+    {{--  Employee detail  --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Employee Profile Header -->
         <div class="bg-white rounded-2xl card-shadow overflow-hidden mb-8 fade-in">
             <div class="profile-gradient px-8 py-12 relative">
                 <div class="absolute top-6 right-6">
@@ -534,5 +506,4 @@
             });
         });
 </script>
-</body>
-</html>
+@endsection

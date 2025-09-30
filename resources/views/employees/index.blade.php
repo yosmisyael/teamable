@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Employee List</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+@extends('master')
+
+@section('title')
+    {{ $title }}
+@endsection
+
+@section('style')
     <style>
         .card-shadow {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -63,30 +62,10 @@
             50% { opacity: .7; }
         }
     </style>
-</head>
+@endsection
 
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-blue-500 p-2 rounded-lg">
-                        <span class="material-icons text-white text-2xl">people</span>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Employee Directory</h1>
-                        <p class="text-gray-600">Manage and view team members</p>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                    <span class="material-icons text-blue-500">business</span>
-                    <span>3124500039 - Misyael Yosevian Wiarda</span>
-                </div>
-            </div>
-        </div>
-    </header>
-
+@section('content')
+    {{--  table contents  --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -314,7 +293,7 @@
         </div>
     </div>
 
-    <!--Permanant Delete Confirmation -->
+    <!-- Permanent Delete Confirmation -->
     <div id="permanentDeleteModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 card-shadow">
             <div class="flex items-center mb-6">
@@ -411,5 +390,4 @@
             permanentDeleteModal.classList.remove('hidden');
         }
     </script>
-</body>
-</html>
+@endsection
