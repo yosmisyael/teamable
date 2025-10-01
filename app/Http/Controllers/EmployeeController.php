@@ -14,11 +14,13 @@ class EmployeeController extends Controller
      */
     public function index(): View
     {
+        $title = 'Employee Management App';
+
         $employees = Employee::query()->latest()->paginate(5);
 
         $inactiveEmployees = Employee::query()->onlyTrashed()->count();
 
-        return view('employees.index', compact('employees', 'inactiveEmployees'));
+        return view('employees.index', compact('employees', 'inactiveEmployees', 'title'));
     }
 
     /**

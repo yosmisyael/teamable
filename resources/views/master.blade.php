@@ -28,7 +28,7 @@
                     <div class="hidden md:flex items-center space-x-4">
                         <div class="flex items-center space-x-2 px-4 py-2 bg-gray-50 rounded-lg">
                             <span class="material-icons text-blue-500 text-sm">account_circle</span>
-                            <span class="text-sm font-medium text-gray-700">3124500039 - Employee Name</span>
+                            <span class="text-sm font-medium text-gray-700">3124500039 - Misyael Yosevian Wiarda</span>
                         </div>
                         <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200" title="Notifications">
                             <span class="material-icons">notifications</span>
