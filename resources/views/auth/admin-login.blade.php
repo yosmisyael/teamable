@@ -91,7 +91,8 @@
                 <h2 class="text-2xl font-bold text-primary text-center">Welcome Back</h2>
                 <p class="text-gray-500 text-center text-sm mt-1 mb-6">Log in to access your Teamable account</p>
 
-                <form action="#" method="POST" class="space-y-5">
+                <form action="/login" method="POST" class="space-y-5">
+                    @csrf
                     <!-- Work Email -->
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Work Email</label>
@@ -103,8 +104,11 @@
                                     <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
                                 </svg>
                             </div>
-                            <input type="email" name="email" id="email" class="focus:ring-secondary focus:border-secondary block w-full pl-10 pr-3 py-3 sm:text-sm border-gray-300 rounded-md" placeholder="you@company.com">
+                            <input type="email" name="email" id="email" value="{{ @old('email') }}" class="focus:ring-secondary focus:border-secondary block w-full pl-10 pr-3 py-3 sm:text-sm border-gray-300 rounded-md" placeholder="you@company.com">
                         </div>
+                        @error('email')
+                        <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Invalid email</span> {{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Password -->
@@ -138,6 +142,10 @@
                             <a href="#" class="font-medium text-secondary hover:text-secondary/80">Forgot Password?</a>
                         </div>
                     </div>
+
+                    @error('credentials')
+                    <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Invalid Credentials</span> {{ $message }}</p>
+                    @enderror
 
                     <!-- Log In Button -->
                     <div>
