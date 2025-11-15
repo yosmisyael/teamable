@@ -6,6 +6,14 @@
     --color-tertiary: #93D5F1;
 }
 
+.sidebar-link {
+    @apply flex items-center px-4 py-3 rounded-lg gap-3 text-tertiary font-medium
+    transition-colors duration-150 ease-in-out hover:text-white hover:bg-secondary/20;
+}
+.sidebar-link-active {
+    @apply flex items-center px-4 py-3 bg-white rounded-lg gap-3 text-primary font-medium
+    transition-colors duration-150 ease-in-out;
+}
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

@@ -1,0 +1,41 @@
+<aside class="w-64 bg-primary text-white flex-col hidden md:flex overflow-y-auto">
+    <!-- Logo -->
+    <div class="h-20 flex items-center justify-center flex-shrink-0 bg-white m-2 rounded-lg">
+        <a href="index.html" class="text-3xl font-bold text-primary flex">
+            <img src="{{asset('logo.ico')}}" alt="logo" class="h-8">
+            eamable
+        </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-4 py-4 space-y-2">
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">home</span>
+            Dashboard
+        </a>
+        <a href="{{ route('admin.employees.index') }}" class="{{ request()->routeIs('admin.employees.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">assignment_ind</span>
+            Employees
+        </a>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.recruits.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">person_search</span>
+            Recruitment
+        </a>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.attendances.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">punch_clock</span>
+            Attendance
+        </a>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.payrolls.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">payments</span>
+            Payroll
+        </a>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.departments.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">domain</span>
+            Department
+        </a>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.positions.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">cases</span>
+            Position
+        </a>
+    </nav>
+</aside>

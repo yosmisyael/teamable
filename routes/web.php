@@ -21,4 +21,19 @@ Route::post('/login', [AdminController::class, 'handleLogin']);
 Route::middleware(['admin.auth', 'company.setup'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/onboarding', CompanyOnboarding::class)->name('admin.onboarding');
+    Route::prefix('employees')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('admin.employees.index');
+    });
+    Route::prefix('payrolls')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('admin.payrolls');
+    });
+    Route::prefix('attendances')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('admin.attendances');
+    });
+    Route::prefix('departments')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('admin.departments');
+    });
+    Route::prefix('positions')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('admin.positions');
+    });
 });
