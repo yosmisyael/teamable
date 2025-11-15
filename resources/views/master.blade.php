@@ -75,7 +75,7 @@
                                     "text-gray-600 hover:text-blue-600 hover:bg-blue-50 border-b-4 border-transparent hover:border-blue-300" => !request()->is('positions*'),
                             ])>
                             <span class="material-icons text-lg">work</span>
-                            <span>Positiions</span>
+                            <span>Positions</span>
                         </a>
                     </li>
                     <li>

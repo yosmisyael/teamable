@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Position;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PositionController extends Controller
@@ -69,7 +70,12 @@ class PositionController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $validated = $request->validate([
-            'nama_jabatan' => 'required|string|max:100|unique:positions,nama_jabatan',
+            'nama_jabatan' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('positions', 'nama_jabatan')->ignore($id),
+            ],
             'gaji_pokok' => 'required|decimal:0,2|min:0|max:99999999.99',
         ]);
 
