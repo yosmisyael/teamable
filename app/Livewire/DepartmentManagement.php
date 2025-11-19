@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Department;
 use App\Models\Employee;
+use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -17,8 +18,6 @@ class DepartmentManagement extends Component
     use WithPagination;
 
     protected $paginationTheme = 'tailwind';
-
-    #[Title('Department Management')]
 
     public bool $isFormOpen = false;
 
@@ -105,6 +104,7 @@ class DepartmentManagement extends Component
 
     public function render(): View
     {
+        FacadesView::share('pageTitle', 'Department Management');
         $totalDepartments = Department::query()->count();
         $totalEmployees = Employee::query()->count();
         $avgEmployeesPerDepartment = $totalDepartments > 0

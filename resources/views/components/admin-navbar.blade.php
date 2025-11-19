@@ -12,7 +12,7 @@
             </svg>
         </button>
         <h1 class="text-2xl font-bold text-primary">
-            @yield('pageTitle')
+            {{ $pageTitle }}
         </h1>
     </div>
 

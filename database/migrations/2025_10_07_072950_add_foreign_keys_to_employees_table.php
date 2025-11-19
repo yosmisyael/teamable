@@ -13,15 +13,24 @@ return new class extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             $table->unsignedBigInteger('department_id')->after('start_date');
-            $table->unsignedBigInteger('position_id')->after('department_id');
+            $table->unsignedBigInteger('position_id')->after('department_id')->nullable();
+            $table->unsignedBigInteger('job_id')->after('position_id');
 
             $table->foreign('department_id')
                 ->references('id')
                 ->on('departments')
                 ->onDelete('cascade');
+
             $table->foreign('position_id')
                 ->references('id')
                 ->on('positions')
+                ->onDelete('cascade')
+                ->nullOnDelete();
+
+            $table->foreign('job_id')
+                ->references('id')
+                ->on('jobs')
+                ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
     }

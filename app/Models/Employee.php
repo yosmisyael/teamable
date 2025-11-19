@@ -33,7 +33,11 @@ class Employee extends Model
     }
 
     public function position(): BelongsTo {
-        return $this->belongsTo(Position::class, 'position_id');
+        return $this->belongsTo(Position::class, 'position_id', 'id');
+    }
+
+    public function job(): BelongsTo {
+        return $this->belongsTo(Job::class, 'job_id', 'id');
     }
 
     public function salaries(): HasMany {

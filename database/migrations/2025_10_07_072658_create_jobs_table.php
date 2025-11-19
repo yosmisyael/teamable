@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('positions', function (Blueprint $table) {
+        Schema::create('job_profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('name', 100)->unique();
+            $table->integer('min_salary');
+            $table->integer('max_salary');
             $table->unsignedBigInteger('department_id');
-            $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')
-                ->references('id')
-                ->on('jobs')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
 
             $table->foreign('department_id')
                 ->references('id')
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('positions');
+        Schema::dropIfExists('jobs');
     }
 };
