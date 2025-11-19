@@ -21,7 +21,7 @@
             <span class="material-icons text-xl">work</span>
             Jobs
         </a>
-        <a href="{{ route('admin.positions') }}" class="{{ request()->routeIs('admin.positions.') ? 'sidebar-link-active' : 'sidebar-link' }}">
+        <a href="{{ route('admin.positions') }}" class="{{ request()->routeIs('admin.positions') ? 'sidebar-link-active' : 'sidebar-link' }}">
             <span class="material-icons text-xl">account_tree</span>
             Position
         </a>

@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="bg-white p-5 rounded-lg shadow-md flex items-center space-x-4">
-            <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+            <div class="w-12 h-12 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0">
                 <span class="material-icons text-xl text-primary">block</span>
             </div>
             <div>

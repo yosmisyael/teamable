@@ -135,7 +135,7 @@
                         </td>
                         <td class="p-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">
-                                Rp{{ number_format($job->min_salary, decimal_separator: ',', thousands_separator: '.') }} - ${{ number_format($job->max_salary, decimal_separator: ',', thousands_separator: '.') }}
+                                Rp{{ number_format($job->min_salary, decimal_separator: ',', thousands_separator: '.') }} - Rp{{ number_format($job->max_salary, decimal_separator: ',', thousands_separator: '.') }}
                             </div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
