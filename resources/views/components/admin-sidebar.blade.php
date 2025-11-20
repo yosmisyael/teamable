@@ -29,7 +29,7 @@
             <span class="material-icons text-xl">assignment_ind</span>
             Employees
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.attendances.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+        <a href="{{ route('admin.attendances') }}" class="{{ request()->routeIs('admin.attendances') ? 'sidebar-link-active' : 'sidebar-link' }}">
             <span class="material-icons text-xl">punch_clock</span>
             Attendance
         </a>
