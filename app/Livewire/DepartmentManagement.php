@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -31,7 +30,7 @@ class DepartmentManagement extends Component
     public string $name = '';
 
     #[Rule('nullable|exists:employees,id')]
-    public string $manager_id = '';
+    public ?string $manager_id = null;
 
     public function toggleForm(): void {
         $this->isFormOpen = !$this->isFormOpen;
@@ -62,7 +61,7 @@ class DepartmentManagement extends Component
             'manager_id' => 'nullable|exists:employees,id',
         ]);
 
-        if (isset($validated['manager_id']) && $validated['manager_id'] == '') {
+        if (!isset($validated['manager_id']) || $validated['manager_id'] === '') {
             $validated['manager_id'] = null;
         }
 
@@ -84,9 +83,7 @@ class DepartmentManagement extends Component
 
         $this->departmentToEditId = $id;
         $this->name = $department->name;
-        if ($department->manager_id) {
-            $this->manager_id = $department->manager_id;
-        }
+        $this->manager_id = $department->manager_id ? $department->manager_id : 'null';
         $this->isFormOpen = true;
     }
 
@@ -114,7 +111,7 @@ class DepartmentManagement extends Component
             'departments' => Department::query()->with(['manager', 'employees'])->latest()->paginate(5),
             'totalDepartments' => Department::query()->count(),
             'totalEmployees' => Employee::query()->count(),
-            'managerCandidate' => Employee::query()->whereDoesntHave('managedDepartment')->get(),
+            'managerCandidate' => Employee::query()->get(),
             'averageEmployeesPerDepartment' => $avgEmployeesPerDepartment,
         ]);
     }

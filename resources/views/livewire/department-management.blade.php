@@ -148,7 +148,7 @@
                                      src="https://placehold.co/40x40/93D5F1/176688?text={{ $department->manager != null ? \Illuminate\Support\Str::substr($department->manager->name, 2) : '?' }}">
                                 <div>
                                     <div class="text-sm font-medium text-gray-900">{{ $department->manager != null ? $department->manager->name : 'Not set' }}</div>
-                                    <div class="text-xs text-gray-500">{{ $department->manager != null ? $department->manager->id : 'Not set' }}</div>
+                                    <div class="text-xs text-gray-500">{{ $department->manager != null ? 'ID: ' . $department->manager->id : 'Not set' }}</div>
                                 </div>
                             </div>
                         </td>
@@ -209,7 +209,7 @@
                     <div class="relative mt-1 rounded-md shadow-sm">
                         <span class="material-icons text-xl text-primary input-icon">person</span>
                         <select wire:model.live="manager_id" id="manager_id" class="input-select">
-                            <option value="null">Select department manager</option>
+                            <option>Select department manager</option>
                             @foreach($managerCandidate as $candidate)
                                 <option value="{{ $candidate->id }}">{{ $candidate->name }}</option>
                             @endforeach
