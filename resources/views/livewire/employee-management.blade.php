@@ -42,7 +42,7 @@
 
     <!-- Filters & Search -->
     <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center">
             <div class="relative w-full max-w-md">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="material-icons text-gray-400">search</span>
@@ -123,10 +123,10 @@
                         </td>
                         <td class="p-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-3">
-                                <button wire:click="editEmployee({{ $employee->id }})" class="text-gray-400 hover:text-secondary">
+                                <button wire:click="editEmployee({{ $employee->id }})" class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">edit_square</span>
                                 </button>
-                                <button wire:click="toggleDeleteModal({{ $employee->id }})" class="text-gray-400 hover:text-red-500">
+                                <button wire:click="toggleDeleteModal({{ $employee->id }})" class="text-gray-400 hover:text-red-500 cursor-pointer">
                                     <span class="material-icons">delete</span>
                                 </button>
                             </div>
@@ -145,7 +145,7 @@
             <h2 class="text-xl font-bold text-primary">
                 {{ $employeeToEditId ? 'Edit Employee' : 'Onboard New Employee' }}
             </h2>
-            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500">
+            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500 cursor-pointer">
                 <span class="material-icons">close</span>
             </button>
         </div>
@@ -153,10 +153,11 @@
         <div class="p-6 overflow-y-auto flex-1">
             <form wire:submit.prevent="saveEmployee" class="flex flex-col gap-5">
 
-                <!-- Personal Info Section -->
+                {{-- personal info field --}}
                 <div class="bg-surface-high p-4 rounded-md border border-gray-200">
                     <h3 class="text-sm font-bold text-gray-500 mb-3 uppercase tracking-wider">Personal Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {{-- name field --}}
                         <div class="input-group">
                             <label class="input-label">Full Name</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -165,6 +166,7 @@
                             </div>
                             @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+                        {{-- email field --}}
                         <div class="input-group">
                             <label class="input-label">Email Address</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -173,6 +175,7 @@
                             </div>
                             @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+                        {{-- phone field --}}
                         <div class="input-group">
                             <label class="input-label">Phone Number</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -181,6 +184,7 @@
                             </div>
                             @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+                        {{-- message field --}}
                         <div class="input-group">
                             <label class="input-label">Date of Birth</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -189,6 +193,7 @@
                             </div>
                             @error('birth_date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+                        {{-- address field --}}
                         <div class="input-group md:col-span-2">
                             <label class="input-label">Residential Address</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -200,7 +205,7 @@
                     </div>
                 </div>
 
-                <!-- Employment Info Section -->
+                {{-- employments field --}}
                 <div class="bg-tertiary/10 p-4 rounded-md border border-blue-100">
                     <h3 class="text-sm font-bold text-secondary mb-3 uppercase tracking-wider">Employment Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -219,7 +224,7 @@
                             @error('department_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Job (Dependent on Dept, Triggers Position Filter) -->
+                        {{-- job field --}}
                         <div class="input-group">
                             <label class="input-label">Job Profile</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -235,7 +240,7 @@
                             @error('job_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Position (Dependent on Job) -->
+                        {{-- position field --}}
                         <div class="input-group">
                             <label class="input-label">Position Title</label>
                             <div class="relative mt-1 rounded-md shadow-sm">
@@ -251,16 +256,25 @@
                             @error('position_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
+                        {{-- status field --}}
                         <div class="input-group md:col-span-2">
                             <label class="input-label">Status</label>
-                            <div class="flex items-center gap-4 mt-2">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" wire:model="status" value="active" class="text-secondary focus:ring-secondary">
-                                    <span class="text-sm font-medium text-gray-700">Active</span>
+                            <div class="flex items-center gap-3 mt-2">
+                                <label class="cursor-pointer flex-1 sm:flex-none">
+                                    <input type="radio" wire:model="status" value="active" class="peer sr-only">
+                                    <div class="px-4 py-2 rounded-md border border-gray-400 text-gray-500 hover:bg-gray-50 transition-all
+                                                    peer-checked:border-primary peer-checked:text-primary peer-checked:bg-primary/10 peer-checked:border-2 peer-checked:shadow-sm font-medium flex items-center justify-center gap-2">
+                                        <span class="material-icons text-lg">check_circle_outline</span>
+                                        Active
+                                    </div>
                                 </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" wire:model="status" value="inactive" class="text-gray-500 focus:ring-gray-500">
-                                    <span class="text-sm font-medium text-gray-700">Inactive</span>
+                                <label class="cursor-pointer flex-1 sm:flex-none">
+                                    <input type="radio" wire:model="status" value="inactive" class="peer sr-only">
+                                    <div class="px-4 py-2 rounded-md border border-gray-400 text-gray-500 hover:bg-gray-50 transition-all
+                                                    peer-checked:border-red-500 peer-checked:text-red-700 peer-checked:bg-red-50/50 peer-checked:border-2 peer-checked:shadow-sm font-medium flex items-center justify-center gap-2">
+                                        <span class="material-icons text-lg">highlight_off</span>
+                                        Inactive
+                                    </div>
                                 </label>
                             </div>
                             @error('status') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -268,6 +282,7 @@
                     </div>
                 </div>
 
+                {{-- buttons field --}}
                 <div class="flex gap-3 justify-end pt-4 border-t border-gray-200">
                     <button wire:click="toggleForm" type="button" class="button-secondary">
                         Cancel

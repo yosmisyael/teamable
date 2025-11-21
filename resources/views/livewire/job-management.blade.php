@@ -17,7 +17,8 @@
             <div>
                 <p class="text-sm text-gray-500">Avg Base Salary</p>
                 {{-- Assuming a currency helper exists, or standard formatting --}}
-                <span class="text-2xl font-bold text-primary">Rp{{ number_format($avgMinSalary, decimal_separator: ',', thousands_separator: '.') }}</span>
+                <span
+                    class="text-2xl font-bold text-primary">Rp{{ number_format($avgMinSalary, decimal_separator: ',', thousands_separator: '.') }}</span>
             </div>
         </div>
         <div class="bg-white p-5 rounded-lg shadow-md flex items-center space-x-4">
@@ -26,7 +27,8 @@
             </div>
             <div>
                 <p class="text-sm text-gray-500">Avg Max Cap</p>
-                <span class="text-2xl font-bold text-primary">Rp{{ number_format($avgMaxSalary, decimal_separator: ',', thousands_separator: '.') }}</span>
+                <span
+                    class="text-2xl font-bold text-primary">Rp{{ number_format($avgMaxSalary, decimal_separator: ',', thousands_separator: '.') }}</span>
             </div>
         </div>
         <div class="bg-white p-5 rounded-lg shadow-md flex items-center space-x-4">
@@ -82,7 +84,8 @@
             <span class="text-sm font-medium text-gray-500">Quick filters:</span>
             <a href="#" class="px-3 py-1 rounded-full text-sm font-medium bg-tertiary text-primary">All
                 Jobs</a>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">High Salary</a>
+            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">High
+                Salary</a>
             <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">Tech Dept</a>
         </div>
     </div>
@@ -130,12 +133,15 @@
                         <td class="p-4 whitespace-nowrap">
                             <div class="flex items-center space-x-2">
                                 <span class="material-icons text-gray-400 text-sm">domain</span>
-                                <span class="text-sm text-gray-700">{{ $job->department ? $job->department->name : 'Unassigned' }}</span>
+                                <span
+                                    class="text-sm text-gray-700">{{ $job->department ? $job->department->name : 'Unassigned' }}</span>
                             </div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">
-                                Rp{{ number_format($job->min_salary, decimal_separator: ',', thousands_separator: '.') }} - Rp{{ number_format($job->max_salary, decimal_separator: ',', thousands_separator: '.') }}
+                                Rp{{ number_format($job->min_salary, decimal_separator: ',', thousands_separator: '.') }}
+                                -
+                                Rp{{ number_format($job->max_salary, decimal_separator: ',', thousands_separator: '.') }}
                             </div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
@@ -148,15 +154,16 @@
                         <td class="p-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-3">
                                 {{--  action view  --}}
-                                <button class="text-gray-400 hover:text-secondary">
+                                <button class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">visibility</span>
                                 </button>
                                 {{--  action edit  --}}
-                                <button wire:click="editJob({{ $job->id }})" class="text-gray-400 hover:text-secondary">
+                                <button wire:click="editJob({{ $job->id }})" class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">edit_square</span>
                                 </button>
                                 {{--  action delete  --}}
-                                <button wire:click="toggleDeleteModal({{ $job->id }})" class="text-gray-400 hover:text-red-500">
+                                <button wire:click="toggleDeleteModal({{ $job->id }})"
+                                        class="text-gray-400 hover:text-red-500 cursor-pointer">
                                     <span class="material-icons">delete</span>
                                 </button>
                             </div>
@@ -172,77 +179,82 @@
     {{--  Add/Edit Job Form  --}}
     <section
         class="h-screen w-1/3 {{ $isFormOpen ? 'translate-x-0' : 'translate-x-[100%]' }} transition-all duration-300 ease-out fixed right-0 top-0 z-10 bg-surface-high rounded-lg shadow-lg">
-        <div class="p-6">
-            <form wire:submit.prevent="saveJob" class="flex flex-col gap-4">
-                <h2 class="form-title">
-                    {{ $jobToEditId ? 'Edit Job: ' . $this->name : 'Add New Job' }}
-                </h2>
-
-                {{-- Job Name --}}
-                <div class="input-group">
-                    <label for="name" class="input-label">Job Title</label>
-                    <div class="relative mt-1 rounded-md shadow-sm">
-                        <span class="material-icons text-xl text-primary input-icon">work_outline</span>
-                        <input id="name" wire:model.live="name" type="text" class="input-field" placeholder="e.g. Senior Engineer">
-                    </div>
-                    @error('name')
-                    <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Error:</span> {{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Department Select --}}
-                <div class="input-group">
-                    <label for="department_id" class="input-label">Department</label>
-                    <div class="relative mt-1 rounded-md shadow-sm">
-                        <span class="material-icons text-xl text-primary input-icon">domain</span>
-                        <select wire:model="department_id" id="department_id" class="input-select">
-                            <option value="">Select Department</option>
-                            @foreach($departments as $dept)
-                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @error('department_id')
-                    <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Error:</span> {{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    {{-- Min Salary --}}
-                    <div class="input-group">
-                        <label for="min_salary" class="input-label">Min Salary</label>
-                        <div class="relative mt-1 rounded-md shadow-sm">
-                            <span class="material-icons text-xl text-primary input-icon">money</span>
-                            <input id="min_salary" wire:model="min_salary" type="number" class="input-field" placeholder="0">
-                        </div>
-                        @error('min_salary')
-                        <p class="mt-2.5 text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Max Salary --}}
-                    <div class="input-group">
-                        <label for="max_salary" class="input-label">Max Salary</label>
-                        <div class="relative mt-1 rounded-md shadow-sm">
-                            <span class="material-icons text-xl text-primary input-icon">money</span>
-                            <input id="max_salary" wire:model="max_salary" type="number" class="input-field" placeholder="0">
-                        </div>
-                        @error('max_salary')
-                        <p class="mt-2.5 text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="flex gap-3 justify-end mt-5">
-                    <button wire:click="toggleForm" type="button" class="button-secondary w-fit">
-                        Cancel
-                    </button>
-                    <button type="submit" class="button-primary w-fit">
-                        {{ $jobToEditId ? 'Save Changes' : 'Add Job' }}
-                    </button>
-                </div>
-            </form>
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="form-title">
+                {{ $jobToEditId ? 'Edit Job: ' . $this->name : 'Add New Job' }}
+            </h2>
+            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500 cursor-pointer">
+                <span class="material-icons">close</span>
+            </button>
         </div>
+        <form wire:submit.prevent="saveJob" class="flex flex-col gap-4 p-6">
+            {{-- Job Name --}}
+            <div class="input-group">
+                <label for="name" class="input-label">Job Title</label>
+                <div class="relative mt-1 rounded-md shadow-sm">
+                    <span class="material-icons text-xl text-primary input-icon">work_outline</span>
+                    <input id="name" wire:model.live="name" type="text" class="input-field"
+                           placeholder="e.g. Senior Engineer">
+                </div>
+                @error('name')
+                <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Error:</span> {{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Department Select --}}
+            <div class="input-group">
+                <label for="department_id" class="input-label">Department</label>
+                <div class="relative mt-1 rounded-md shadow-sm">
+                    <span class="material-icons text-xl text-primary input-icon">domain</span>
+                    <select wire:model="department_id" id="department_id" class="input-select">
+                        <option value="">Select Department</option>
+                        @foreach($departments as $dept)
+                            <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('department_id')
+                <p class="mt-2.5 text-sm text-red-500"><span class="font-medium">Error:</span> {{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                {{-- Min Salary --}}
+                <div class="input-group">
+                    <label for="min_salary" class="input-label">Min Salary</label>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <span class="material-icons text-xl text-primary input-icon">money</span>
+                        <input id="min_salary" wire:model="min_salary" type="number" class="input-field"
+                               placeholder="0">
+                    </div>
+                    @error('min_salary')
+                    <p class="mt-2.5 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Max Salary --}}
+                <div class="input-group">
+                    <label for="max_salary" class="input-label">Max Salary</label>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <span class="material-icons text-xl text-primary input-icon">money</span>
+                        <input id="max_salary" wire:model="max_salary" type="number" class="input-field"
+                               placeholder="0">
+                    </div>
+                    @error('max_salary')
+                    <p class="mt-2.5 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="flex gap-3 justify-end mt-5">
+                <button wire:click="toggleForm" type="button" class="button-secondary w-fit">
+                    Cancel
+                </button>
+                <button type="submit" class="button-primary w-fit">
+                    {{ $jobToEditId ? 'Save Changes' : 'Add Job' }}
+                </button>
+            </div>
+        </form>
     </section>
 
     {{--  Delete Job Modal  --}}
@@ -257,7 +269,9 @@
                         <button wire:click="toggleDeleteModal" type="button" class="button-secondary">
                             Cancel
                         </button>
-                        <button class="button-danger shadow-md border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded" type="submit">
+                        <button
+                            class="button-danger shadow-md border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded"
+                            type="submit">
                             Remove
                         </button>
                     </div>

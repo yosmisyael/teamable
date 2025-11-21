@@ -164,15 +164,15 @@
                         <td class="p-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-3">
                                 {{--  action view  --}}
-                                <button class="text-gray-400 hover:text-secondary">
+                                <button class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">visibility</span>
                                 </button>
                                 {{--  action edit  --}}
-                                <button wire:click="editDepartment({{ $department->id }})" class="text-gray-400 hover:text-secondary">
+                                <button wire:click="editDepartment({{ $department->id }})" class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">edit_square</span>
                                 </button>
                                 {{--  action delete  --}}
-                                <button wire:click="toggleDeleteModal({{ $department->id }})" class="text-gray-400 hover:text-red-500">
+                                <button wire:click="toggleDeleteModal({{ $department->id }})" class="text-gray-400 hover:text-red-500 cursor-pointer">
                                     <span class="material-icons">delete</span>
                                 </button>
                             </div>
@@ -189,11 +189,15 @@
     {{--  Department Form  --}}
     <section
         class="h-screen w-1/3 {{ $isFormOpen ? 'translate-x-0' : 'translate-x-[100%]' }} transition-all duration-300 ease-out fixed right-0 top-0 z-10 bg-surface-high rounded-lg shadow-lg">
-        <div class="p-6">
-            <form action="" wire:submit.prevent="saveDepartment" class="flex flex-col gap-4">
-                <h2 class="form-title">
-                    {{ $departmentToEditId ? 'Edit Department: ' . $this->name : 'Add New Department' }}
-                </h2>
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="form-title">
+                {{ $departmentToEditId ? 'Edit Department: ' . $this->name : 'Add New Department' }}
+            </h2>
+            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500 cursor-pointer">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <form action="" wire:submit.prevent="saveDepartment" class="flex flex-col gap-4 p-6">
                 <div class="input-group">
                     <label for="name" class="input-label">Department Name</label>
                     <div class="relative mt-1 rounded-md shadow-sm">
@@ -228,7 +232,6 @@
                     </button>
                 </div>
             </form>
-        </div>
     </section>
 
     {{--  Delete Department Modal  --}}

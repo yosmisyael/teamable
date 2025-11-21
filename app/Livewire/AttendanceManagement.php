@@ -37,7 +37,7 @@ class AttendanceManagement extends Component
     // Constants for logic
     const STATUSES_WITH_TIME = ['attended', 'late', 'early exit'];
 
-    public function mount()
+    public function mount(): void
     {
         $this->filterDate = Carbon::today()->format('Y-m-d');
     }
@@ -73,9 +73,7 @@ class AttendanceManagement extends Component
         $this->isFormOpen = true;
     }
 
-    // Optional: Clear times immediately when status changes in form to "absent" types
-    // This provides better UX as the user sees values disappear or stay based on logic
-    public function updatedStatus($value)
+    public function updatedStatus($value): void
     {
         if (!in_array($value, self::STATUSES_WITH_TIME)) {
             $this->check_in_at = null;
@@ -95,8 +93,6 @@ class AttendanceManagement extends Component
             $rules['check_in_at'] = 'nullable|date_format:H:i';
             $rules['check_out_at'] = 'nullable|date_format:H:i|after:check_in_at';
         } else {
-            // If not in time-tracking status, we don't require time validation
-            // and we will force nulls below.
             $rules['check_in_at'] = 'nullable';
             $rules['check_out_at'] = 'nullable';
         }
@@ -107,7 +103,6 @@ class AttendanceManagement extends Component
 
         $validated = $this->validate($rules);
 
-        // Force Null for non-attendance statuses
         if (!in_array($this->status, self::STATUSES_WITH_TIME)) {
             $validated['check_in_at'] = null;
             $validated['check_out_at'] = null;
@@ -125,7 +120,7 @@ class AttendanceManagement extends Component
         session()->flash('success', $message);
     }
 
-    public function updatedFilterDate()
+    public function updatedFilterDate(): void
     {
         $this->resetPage();
     }

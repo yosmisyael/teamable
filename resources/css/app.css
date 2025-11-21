@@ -23,7 +23,7 @@
 }
 
 .form-title {
-    @apply text-2xl text-primary font-bold mb-3;
+    @apply text-2xl text-primary font-bold;
 }
 
 .input-group {

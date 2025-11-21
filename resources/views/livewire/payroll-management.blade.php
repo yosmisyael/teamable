@@ -32,7 +32,7 @@
 
     <!-- Filters & Search -->
     <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center">
             <div class="flex gap-4 w-full max-w-2xl">
                 <!-- Search -->
                 <div class="relative w-full">
@@ -132,20 +132,19 @@
         {{ $payrolls->links('components.pagination') }}
     </div>
 
-    {{--  Form  --}}
+    {{--  Manual Form  --}}
     <section class="h-screen w-full md:w-1/3 {{ $isFormOpen ? 'translate-x-0' : 'translate-x-[100%]' }} transition-all duration-300 ease-out fixed right-0 top-0 z-20 bg-surface-high shadow-2xl flex flex-col">
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
             <h2 class="text-xl font-bold text-primary">
                 {{ $payrollToEditId ? 'Edit Transaction' : 'Record Payment' }}
             </h2>
-            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500">
+            <button wire:click="toggleForm" class="text-gray-500 cursor-pointer hover:text-red-500">
                 <span class="material-icons">close</span>
             </button>
         </div>
 
         <div class="p-6 overflow-y-auto flex-1">
             <form wire:submit.prevent="savePayroll" class="flex flex-col gap-5">
-
                 <!-- Employee Selection -->
                 <div class="input-group">
                     <label for="employee_id" class="input-label">Employee</label>
@@ -333,7 +332,7 @@
                 <h2 class="text-xl font-bold text-primary">
                     Setup Payroll Automation
                 </h2>
-                <button wire:click="toggleSetupForm" class="text-gray-500 hover:text-red-500">
+                <button wire:click="toggleSetupForm" class="text-gray-500 cursor-pointer hover:text-red-500">
                     <span class="material-icons">close</span>
                 </button>
             </div>

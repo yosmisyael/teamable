@@ -32,7 +32,7 @@
 
     <!-- Search -->
     <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center">
             <div class="relative w-full max-w-md">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="material-icons text-gray-400">search</span>
@@ -85,11 +85,11 @@
                         </td>
                         <td class="p-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-3">
-                                <button wire:click="editSalary({{ $salary->id }})" class="text-gray-400 hover:text-secondary">
+                                <button wire:click="editSalary({{ $salary->id }})" class="text-gray-400 hover:text-primary cursor-pointer">
                                     <span class="material-icons">edit_square</span>
                                 </button>
                                 {{-- Requested Style for Delete Button --}}
-                                <button wire:click="toggleDeleteModal({{ $salary->id }})" class="text-gray-400 hover:text-red-500">
+                                <button wire:click="toggleDeleteModal({{ $salary->id }})" class="text-gray-400 hover:text-red-500 cursor-pointer">
                                     <span class="material-icons">delete</span>
                                 </button>
                             </div>
@@ -111,10 +111,10 @@
     {{--  Slide-over Form  --}}
     <section class="h-screen w-full md:w-1/3 {{ $isFormOpen ? 'translate-x-0' : 'translate-x-[100%]' }} transition-all duration-300 ease-out fixed right-0 top-0 z-20 bg-surface-high shadow-2xl flex flex-col">
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-xl font-bold text-primary">
+            <h2 class="text-xl font-bold text-primary cursor-pointer">
                 {{ $salaryToEditId ? 'Edit Salary Details' : 'Define Salary' }}
             </h2>
-            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500">
+            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500 cursor-pointer">
                 <span class="material-icons">close</span>
             </button>
         </div>

@@ -165,7 +165,7 @@
                             </span>
                         </td>
                         <td class="p-4 whitespace-nowrap text-sm font-medium">
-                            <button wire:click="editAttendance({{ $attendance->id }})" class="text-gray-400 hover:text-secondary">
+                            <button wire:click="editAttendance({{ $attendance->id }})" class="text-gray-400 hover:text-primary cursor-pointer">
                                 <span class="material-icons">edit</span>
                             </button>
                         </td>
@@ -189,7 +189,7 @@
             <h2 class="text-xl font-bold text-primary">
                 {{ $attendanceToEditId ? 'Edit Attendance' : 'Record Attendance' }}
             </h2>
-            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500">
+            <button wire:click="toggleForm" class="text-gray-500 hover:text-red-500 cursor-pointer">
                 <span class="material-icons">close</span>
             </button>
         </div>
@@ -206,43 +206,50 @@
                 @else
                     <div class="input-group">
                         <label class="input-label">Select Employee</label>
-                        <select wire:model="employee_id" class="input-select">
-                            <option value="">Choose an employee...</option>
-                            @foreach($employees as $employee)
-                                <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="relative mt-1 rounded-md shadow-sm">
+                            <span class="material-icons input-icon text-primary">person</span>
+                            <select wire:model="employee_id" class="input-select">
+                                <option value="">Choose an employee...</option>
+                                @foreach($employees as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         @error('employee_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
                 @endif
 
                 <div class="input-group">
                     <label class="input-label">Date</label>
-                    <input wire:model="date" type="date" class="input-field">
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <span class="material-icons input-icon text-primary">calendar_today</span>
+                        <input wire:model="date" type="date" class="input-field">
+                    </div>
                     @error('date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="input-group">
                     <label class="input-label">Status</label>
-                    <!-- wire:model.live allows us to disable time inputs reactively -->
-                    <select wire:model.live="status" class="input-select">
-                        <option value="">Select Status...</option>
-                        <optgroup label="Present">
-                            <option value="attended">Attended (Present)</option>
-                            <option value="late">Late</option>
-                            <option value="early exit">Early Exit</option>
-                        </optgroup>
-                        <optgroup label="Absent/Leave">
-                            <option value="absent">Absent</option>
-                            <option value="leave">Leave (General)</option>
-                            <option value="sick leave">Sick Leave</option>
-                            <option value="annual leave">Annual Leave</option>
-                        </optgroup>
-                    </select>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <span class="material-icons input-icon text-primary">co_present</span>
+                        <select wire:model.live="status" class="input-select">
+                            <option value="">Select Status...</option>
+                            <optgroup label="Present">
+                                <option value="attended">Attended (Present)</option>
+                                <option value="late">Late</option>
+                                <option value="early exit">Early Exit</option>
+                            </optgroup>
+                            <optgroup label="Absent/Leave">
+                                <option value="absent">Absent</option>
+                                <option value="leave">Leave (General)</option>
+                                <option value="sick leave">Sick Leave</option>
+                                <option value="annual leave">Annual Leave</option>
+                            </optgroup>
+                        </select>
+                    </div>
                     @error('status') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
-                {{-- Logic to check if time inputs should be enabled --}}
                 @php
                     $disableTimeInputs = !in_array($status, ['attended', 'late', 'early exit']);
                 @endphp
@@ -265,10 +272,10 @@
                 </div>
 
                 <div class="flex gap-3 justify-end pt-4 border-t border-gray-200 mt-auto">
-                    <button wire:click="toggleForm" type="button" class="button-secondary w-32">
+                    <button wire:click="toggleForm" type="button" class="button-secondary">
                         Cancel
                     </button>
-                    <button type="submit" class="button-primary w-40">
+                    <button type="submit" class="button-primary">
                         {{ $attendanceToEditId ? 'Save Correction' : 'Record Entry' }}
                     </button>
                 </div>
