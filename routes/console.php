@@ -57,5 +57,6 @@ Schedule::call(function () {
     $scheduledTime = Carbon::parse($settings->run_time)->format('H:i');
     $currentTime = now()->format('H:i');
 
+    \Illuminate\Support\Facades\Log::info('[Payroll Service] Performing payroll automation job');
     return $scheduledTime === $currentTime;
 });
