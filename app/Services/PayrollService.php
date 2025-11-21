@@ -14,9 +14,10 @@ class PayrollService
     public function generatePayrollForEmployee(Employee $employee): void
     {
         $salary = $employee->salary;
+        Log::info("[Payroll Service] Processing payroll for employee: $employee->id");
 
         if (!$salary) {
-            Log::warning("[Payroll] Skipped Employee ID $employee->id: No Salary Record Found.");
+            Log::warning("[Payroll Service] Skipped Employee ID $employee->id: No Salary Record Found.");
             return;
         }
 
@@ -40,10 +41,9 @@ class PayrollService
 
         // late fine
         $deductions = $this->calculateDeductions($employee, $startDate, $endDate);
-        $netSalary = $baseSalary + $allowance - $cut - $deductions;
 
         try {
-            DB::transaction(function () use ($employee, $baseSalary, $allowance, $cut, $deductions, $netSalary) {
+            DB::transaction(function () use ($employee, $baseSalary, $allowance, $cut, $deductions) {
                 $existingPayroll = Payroll::query()->where('employee_id', $employee->id)
                     ->where('period_month', Carbon::now()->format('m-Y'))
                     ->first();

@@ -52,8 +52,10 @@ class PayrollManagement extends Component
     public string $searchQuery = '';
     public string $filterPeriod = '';
 
-    public function runPayrollNow(PayrollService $service): void
+    public function runPayrollNow(): void
     {
+        Log::info('[Payroll Service] Processing payroll');
+        $service = app(PayrollService::class);
         $paidEmployeeIds = Payroll::query()->where('period_month', $this->filterPeriod)->pluck('employee_id');
 
         $targets = Employee::query()->where('status', 'active')
@@ -66,8 +68,8 @@ class PayrollManagement extends Component
             return;
         }
 
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $count = 0;
             foreach ($targets as $employee) {
                 $service->generatePayrollForEmployee($employee, $this->filterPeriod);
