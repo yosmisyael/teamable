@@ -13,7 +13,13 @@ class PayrollService
 {
     public function generatePayrollForEmployee(Employee $employee): void
     {
-        $salary = $employee->salary();
+        $salary = $employee->salary;
+
+        if (!$salary) {
+            Log::warning("[Payroll] Skipped Employee ID $employee->id: No Salary Record Found.");
+            return;
+        }
+
         $baseSalary = $salary->base_salary;
         $allowance = $salary->allowance;
         $cut = $salary->cut;
@@ -21,14 +27,25 @@ class PayrollService
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
 
+        $joinDate = Carbon::parse($employee->created_at);
+
+        if ($joinDate->between($startDate, $endDate)) {
+            $daysWorked = $joinDate->diffInDays($endDate) + 1;
+            $totalDaysInMonth = $startDate->daysInMonth;
+
+            $proRataFactor = $daysWorked / $totalDaysInMonth;
+
+            $baseSalary = $baseSalary * $proRataFactor;
+        }
+
         // late fine
         $deductions = $this->calculateDeductions($employee, $startDate, $endDate);
         $netSalary = $baseSalary + $allowance - $cut - $deductions;
 
         try {
             DB::transaction(function () use ($employee, $baseSalary, $allowance, $cut, $deductions, $netSalary) {
-                $existingPayroll = Payroll::where('employee_id', $employee->id)
-                    ->where('month', Carbon::now()->format('m-Y'))
+                $existingPayroll = Payroll::query()->where('employee_id', $employee->id)
+                    ->where('period_month', Carbon::now()->format('m-Y'))
                     ->first();
 
                 if ($existingPayroll) {
@@ -38,13 +55,12 @@ class PayrollService
                 }
 
                 $payroll->employee_id = $employee->id;
-                $payroll->month = Carbon::now()->format('m-Y');
+                $payroll->period_month = Carbon::now()->format('Y-m');
                 $payroll->payment_date = Carbon::now();
 
                 $payroll->base_salary = $baseSalary;
                 $payroll->allowance = $allowance;
                 $payroll->cut = $cut + $deductions;
-                $payroll->total_salary = $netSalary;
 
                 $payroll->save();
 
@@ -61,9 +77,9 @@ class PayrollService
         $finePerMinute = 5000;
         $fineAbsent = 100000;
 
-        $attendanceDates = Attendance::where('employee_id', $employee->id)
+        $attendanceDates = Attendance::query()->where('employee_id', $employee->id)
             ->whereBetween('date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
-            ->pluck('time_in', 'date')
+            ->pluck('check_in_at', 'date')
             ->toArray();
 
         $currentDate = $start->copy();
@@ -81,8 +97,8 @@ class PayrollService
                 $arrivalTime = Carbon::parse($dateString . ' ' . $attendanceDates[$dateString]);
 
                 if ($arrivalTime->gt($startWorkAt)) {
-                    $menitTelat = $arrivalTime->diffInMinutes($startWorkAt);
-                    $totalDeduction += ($menitTelat * $finePerMinute);
+                    $late = $arrivalTime->diffInMinutes($startWorkAt);
+                    $totalDeduction += ($late * $finePerMinute);
                 }
             } else {
                 $totalDeduction += $fineAbsent;

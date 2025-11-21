@@ -10,7 +10,7 @@
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-4 space-y-2">
         <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'sidebar-link-active' : 'sidebar-link' }}">
-            <span class="material-icons text-xl">home</span>
+            <span class="material-icons text-xl">dashboard</span>
             Dashboard
         </a>
         <a href="{{ route('admin.departments') }}" class="{{ request()->routeIs('admin.departments') ? 'sidebar-link-active' : 'sidebar-link' }}">
@@ -40,6 +40,10 @@
         <a href="{{ route('admin.salaries') }}" class="{{ request()->routeIs('admin.salaries') ? 'sidebar-link-active' : 'sidebar-link' }}">
             <span class="material-icons text-xl">payments</span>
             Salary
+        </a>
+        <a href="{{ route('admin.payrolls') }}" class="{{ request()->routeIs('admin.payrolls') ? 'sidebar-link-active' : 'sidebar-link' }}">
+            <span class="material-icons text-xl">currency_exchange</span>
+            Payrolls
         </a>
         <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.recruits.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
             <span class="material-icons text-xl">person_search</span>

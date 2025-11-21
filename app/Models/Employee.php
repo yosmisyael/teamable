@@ -42,7 +42,7 @@ class Employee extends Model
     }
 
     public function salary(): HasOne {
-        return $this->hasMany(Salary::class, 'employee_id', 'id');
+        return $this->hasOne(Salary::class, 'employee_id', 'id');
     }
 
     public function attendances(): HasMany {

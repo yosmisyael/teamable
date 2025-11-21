@@ -115,7 +115,7 @@ class SalaryManagement extends Component
 
     public function render(): View
     {
-        FacadesView::share('pageTitle', 'Payroll Management');
+        FacadesView::share('pageTitle', 'Salary Management');
 
         $query = Salary::query()->with(['employee', 'bank']);
 

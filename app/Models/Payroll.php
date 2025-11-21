@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payroll extends Model
 {
@@ -14,4 +15,22 @@ class Payroll extends Model
         'allowance',
         'cut'
     ];
+
+    protected $casts = [
+        'payment_date' => 'date',
+        'base_salary' => 'decimal:2',
+        'allowance' => 'decimal:2',
+        'cut' => 'decimal:2',
+    ];
+
+    public function calculateNetSalary(): float
+    {
+        return $this->base_salary + $this->allowance - $this->cut;
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
 }
