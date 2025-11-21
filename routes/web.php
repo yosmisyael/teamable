@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\PositionController;
-use App\Http\Controllers\SalaryController;
 use \App\Http\Controllers\AdminController;
 use \App\Livewire\CompanyOnboarding;
 use \App\Livewire\DepartmentManagement;
@@ -15,6 +10,7 @@ use \App\Livewire\AttendanceManagement;
 use \App\Livewire\BankManagement;
 use \App\Livewire\SalaryManagement;
 use \App\Livewire\PayrollManagement;
+use \App\Livewire\DashboardManagement;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,7 +25,7 @@ Route::post('/login', [AdminController::class, 'handleLogin']);
 
 // admin resources
 Route::middleware(['admin.auth', 'company.setup'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', DashboardManagement::class)->name('admin.dashboard');
     Route::get('/onboarding', CompanyOnboarding::class)->name('admin.onboarding');
     Route::get('/positions', PositionManagement::class)->name('admin.positions');
     Route::get('/jobs', JobManagement::class)->name('admin.jobs');
