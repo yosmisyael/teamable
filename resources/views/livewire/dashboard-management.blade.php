@@ -123,7 +123,7 @@
                     </div>
                     <span class="text-sm font-medium text-primary">Add Employee</span>
                 </a>
-                <a href="{{ route('admin.employees') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-tertiary/30 rounded-lg text-center">
+                <a href="{{ route('admin.payrolls') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-tertiary/30 rounded-lg text-center">
                     <div class="w-12 h-12 bg-tertiary text-white rounded-lg flex items-center justify-center mb-2">
                         <span class="material-icons h-7 w-7 text-primary">currency_exchange</span>
                     </div>
@@ -135,7 +135,7 @@
                     </div>
                     <span class="text-sm font-medium text-primary">Generate Report</span>
                 </a>
-                <a href="{{ route('admin.employees') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-tertiary/30 rounded-lg text-center">
+                <a href="{{ route('admin.leave') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-tertiary/30 rounded-lg text-center">
                     <div class="w-12 h-12 bg-tertiary text-white rounded-lg flex items-center justify-center mb-2">
                         <span class="material-icons h-7 w-7 text-primary">done_all</span>
                     </div>

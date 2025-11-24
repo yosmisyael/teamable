@@ -48,6 +48,7 @@
                     <span class="material-icons text-gray-400">search</span>
                 </div>
                 <input type="text"
+                       wire:model.live="search"
                        class="bg-gray-100 rounded-md py-2.5 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-secondary focus:bg-white"
                        placeholder="Search positions...">
             </div>

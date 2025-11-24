@@ -26,6 +26,8 @@ class JobManagement extends Component
 
     public ?int $jobToEditId = null;
 
+    public string $search = '';
+
     // Form Properties
     public string $name = '';
 
@@ -110,7 +112,7 @@ class JobManagement extends Component
 
     public function render(): View
     {
-        $admin =Auth::guard('admins')->user();
+        $admin = Auth::guard('admins')->user();
         $companyId = $admin->company->id;
 
         FacadesView::share('pageTitle', 'Job Profiles Management');
@@ -118,7 +120,7 @@ class JobManagement extends Component
         $jobQuery = Job::query()
             ->whereHas('department', function ($q) use ($companyId) {
                 $q->where('company_id', $companyId);
-            });
+            })->with('department');
 
         $totalJobs = (clone $jobQuery)->count();
 
@@ -130,12 +132,19 @@ class JobManagement extends Component
             ? (clone $jobQuery)->avg('max_salary')
             : 0;
 
-        return view('livewire.job-management', [
-            'jobs' => $jobQuery
-                ->with('department')
-                ->latest()
-                ->paginate(5),
+        // search keywords
+        if ($this->search) {
+            $searchTerm = '%' . $this->search . '%';
+            $jobQuery->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhereHas('department', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', $searchTerm);
+                    });
+            });
+        }
 
+        return view('livewire.job-management', [
+            'jobs' => $jobQuery->latest()->paginate(5),
             'departments' => Department::query()
                 ->where('company_id', $companyId)
                 ->orderBy('name')

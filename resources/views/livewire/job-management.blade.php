@@ -43,8 +43,9 @@
         </div>
     </div>
 
+    {{-- filter and search --}}
     <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center">
             <div class="relative w-full max-w-md">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -55,21 +56,16 @@
                     </svg>
                 </div>
                 <input type="text"
+                       wire:model.live="search"
                        class="bg-gray-100 rounded-md py-2.5 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-secondary focus:bg-white"
                        placeholder="Search jobs by title, department...">
             </div>
             <div class="flex items-center space-x-2">
                 <button
                     class="flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    <span class="material-icons text-gray-400 text-sm mr-2">filter_list</span>
-                    Filters
-                </button>
-                <button
-                    class="flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                     <span class="material-icons text-gray-400 text-sm mr-2">download</span>
                     Export
                 </button>
-                {{-- Corrected method name to match Component (toggleForm) --}}
                 <button
                     wire:click="toggleForm"
                     class="button-primary">
@@ -79,14 +75,6 @@
                     Add New Job
                 </button>
             </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="text-sm font-medium text-gray-500">Quick filters:</span>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium bg-tertiary text-primary">All
-                Jobs</a>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">High
-                Salary</a>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">Tech Dept</a>
         </div>
     </div>
 

@@ -31,7 +31,7 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+    <div class="bg-white p-4 rounded-lg shadow-md mb-6 flex gap-4">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <span class="material-icons text-gray-400 text-sm">filter_list</span>
@@ -43,6 +43,15 @@
                     <option value="rejected">Rejected</option>
                 </select>
             </div>
+        </div>
+        <div class="relative w-full max-w-md">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="material-icons text-gray-400">search</span>
+            </div>
+            <input type="text"
+                   wire:model.live="search"
+                   class="bg-gray-100 rounded-md py-2.5 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-secondary focus:bg-white"
+                   placeholder="Search by name, email, or ID...">
         </div>
     </div>
 
@@ -211,7 +220,7 @@
                         <span class="material-icons text-base mr-2">thumb_down</span>
                         Reject
                     </button>
-                    <button wire:click="updateStatus('approved')" class="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none cursor-pointer">
+                    <button wire:click="updateStatus('approved')" class="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary bg-tertiary hover:bg-primary hover:text-surface focus:outline-none cursor-pointer">
                         <span class="material-icons text-base mr-2">thumb_up</span>
                         Approve
                     </button>

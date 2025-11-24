@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Admin;
 use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
@@ -27,11 +28,29 @@ class DepartmentManagement extends Component
 
     public ?int $departmentToEditId = null;
 
+    public Admin $admin;
+
+    public string $search = '';
+    public string $filter = 'all';
+
     #[Rule('required|string:max:255|unique:departments,name')]
     public string $name = '';
 
     #[Rule('nullable|exists:employees,id')]
     public ?string $manager_id = null;
+
+    #[Rule('required|exists:companies,id')]
+    public string $company_id;
+
+    public function setFilter(string $filter): void {
+        $this->filter = $filter;
+    }
+
+    public function mount(): void
+    {
+        $this->admin = auth()->guard('admins')->user();
+        $this->company_id = $this->admin->company->id;
+    }
 
     public function toggleForm(): void {
         $this->isFormOpen = !$this->isFormOpen;
@@ -60,6 +79,7 @@ class DepartmentManagement extends Component
         $validated = $this->validate([
             'name' => $ruleName,
             'manager_id' => 'nullable|exists:employees,id',
+            'company_id' => 'required|exists:companies,id',
         ]);
 
         if (!isset($validated['manager_id']) || $validated['manager_id'] === '') {
@@ -106,7 +126,9 @@ class DepartmentManagement extends Component
         $companyId = $admin->company->id;
 
         $departmentQuery = Department::query()
-            ->where('company_id', $companyId);
+            ->where('company_id', $companyId)
+            ->with(['manager', 'employees'])
+            ->withCount('employees');
 
         $employeeQuery = Employee::query()
             ->whereHas('department', function ($q) use ($companyId) {
@@ -120,13 +142,24 @@ class DepartmentManagement extends Component
             ? round($totalEmployees / $totalDepartments, 1)
             : 0;
 
-        return view('livewire.department-management', [
-            'departments' => $departmentQuery
-                ->with(['manager', 'employees'])
-                ->withCount('employees')
-                ->latest()
-                ->paginate(5),
+        if ($this->search) {
+            $searchTerm = '%' . $this->search . '%';
+            $departmentQuery->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhereHas('manager', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', $searchTerm);
+                    });
+            });
+        }
 
+        if ($this->filter === 'active') {
+            $departmentQuery->where('is_active', true);
+        } elseif ($this->filter === 'vacancies') {
+            $departmentQuery->whereNotNull('manager_id');
+        }
+
+        return view('livewire.department-management', [
+            'departments' => $departmentQuery->latest()->paginate(5),
             'totalDepartments' => $totalDepartments,
             'totalEmployees' => $totalEmployees,
             'averageEmployeesPerDepartment' => $avgEmployeesPerDepartment,

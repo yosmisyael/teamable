@@ -44,6 +44,8 @@ class EmployeeManagement extends Component
     public Collection $availableJobs;
     public Collection $availablePositions;
 
+    public string $search = '';
+
     public function mount()
     {
         $this->availableJobs = collect();
@@ -215,10 +217,14 @@ class EmployeeManagement extends Component
         $activeEmployees = (clone $employeeQuery)->where('status', 'active')->count();
         $inactiveEmployees = $totalEmployees - $activeEmployees;
 
-        $employees = $employeeQuery
-            ->with(['department', 'job', 'position'])
-            ->latest()
-            ->paginate(10);
+        $employees = Employee::query()->with(['department', 'job', 'position'])
+            ->when($this->search, function ($query) {
+                $searchTerm = '%' . $this->search . '%';
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhere('email', 'like', $searchTerm)
+                    ->orWhere('id', 'like', $searchTerm);
+            })
+            ->paginate(5);
 
         $departments = Department::query()
             ->where('company_id', $companyId)

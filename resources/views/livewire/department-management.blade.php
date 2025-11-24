@@ -55,20 +55,11 @@
                     </svg>
                 </div>
                 <input type="text"
+                       wire:model.live="search"
                        class="bg-gray-100 rounded-md py-2.5 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-secondary focus:bg-white"
                        placeholder="Search departments by name, head, or location...">
             </div>
             <div class="flex items-center space-x-2">
-                <button
-                    class="flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    <svg class="w-5 h-5 mr-2 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M3.75 5.25a1.5 1.5 0 011.5-1.5h13.5a1.5 1.5 0 010 3H5.25a1.5 1.5 0 01-1.5-1.5zm0 6a1.5 1.5 0 011.5-1.5h13.5a1.5 1.5 0 010 3H5.25a1.5 1.5 0 01-1.5-1.5zm0 6a1.5 1.5 0 011.5-1.5h13.5a1.5 1.5 0 010 3H5.25a1.5 1.5 0 01-1.5-1.5z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    Filters
-                </button>
                 <button
                     class="flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                     <svg class="w-5 h-5 mr-2 text-gray-400" xmlns="http://www.w3.org/2000/svg"
@@ -91,11 +82,20 @@
         </div>
         <div class="flex items-center space-x-4">
             <span class="text-sm font-medium text-gray-500">Quick filters:</span>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium bg-tertiary text-primary">All
-                Departments</a>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">Active</a>
-            <a href="#" class="px-3 py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">With
-                Vacancies</a>
+            @php
+                $filters = ['all', 'active', 'vacancies']
+            @endphp
+            @foreach($filters as $key)
+                @if($filter === $key)
+                    <button class="px-3 py-1 rounded-full cursor-pointer text-sm font-medium bg-tertiary text-primary">
+                        {{\Illuminate\Support\Str::title($key)}}
+                    </button>
+                @else
+                    <button wire:click="setFilter('{{ $key }}')" class="px-3 cursor-pointer py-1 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100">
+                        {{\Illuminate\Support\Str::title($key)}}
+                    </button>
+                @endif
+            @endforeach
         </div>
     </div>
 
@@ -198,6 +198,7 @@
             </button>
         </div>
         <form action="" wire:submit.prevent="saveDepartment" class="flex flex-col gap-4 p-6">
+                <input type="hidden" wire:model="company_id" value="{{ $admin->company->id }}">
                 <div class="input-group">
                     <label for="name" class="input-label">Department Name</label>
                     <div class="relative mt-1 rounded-md shadow-sm">

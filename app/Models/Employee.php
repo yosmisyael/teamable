@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
     use SoftDeletes, HasFactory;
 
@@ -55,5 +55,7 @@ class Employee extends Model
         return $this->hasOneThrough(Company::class, Department::class, 'id', 'id', 'department_id');
     }
 
-
+    public function isRegisteredInCompany(string $companyName): bool {
+        return $this->department?->company?->name === $companyName;
+    }
 }

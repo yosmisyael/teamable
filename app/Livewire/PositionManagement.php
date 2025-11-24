@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Department;
 use App\Models\Job;
 use App\Models\Position;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
@@ -33,6 +32,8 @@ class PositionManagement extends Component
     public ?int $job_id = null;
 
     public $availableJobs = [];
+
+    public string $search = '';
 
     public function mount()
     {
@@ -144,6 +145,20 @@ class PositionManagement extends Component
             });
 
         $totalPositions = (clone $positionQuery)->count();
+
+        // search keywords
+        if ($this->search) {
+            $searchTerm = '%' . $this->search . '%';
+            $positionQuery->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhereHas('department', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', $searchTerm);
+                    })
+                    ->orWhereHas('job', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', $searchTerm);
+                    });
+            });
+        }
 
         $positionsWithVacancies = (clone $positionQuery)
             ->where('status', 'available')

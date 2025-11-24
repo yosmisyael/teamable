@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmployeeAuthController;
 use App\Livewire\CompanyOnboarding;
 use App\Livewire\DepartmentManagement;
 use App\Livewire\JobManagement;
@@ -13,6 +14,7 @@ use App\Livewire\PayrollManagement;
 use App\Livewire\DashboardManagement;
 use App\Livewire\CompanyManagement;
 use App\Livewire\LeaveManagement;
+use App\Livewire\EmployeeDashboard;
 use App\Http\Controllers\PayrollPdfController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,4 +50,11 @@ Route::middleware(['admin.auth', 'company.setup'])->prefix('admin')->group(funct
     Route::get('/leave', LeaveManagement::class)->name('admin.leave');
 
     Route::delete('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});
+
+Route::prefix('employees/{company}')->group(function () {
+    Route::get('/login', [EmployeeAuthController::class, 'login'])->name('employee.login');
+    Route::post('/login', [EmployeeAuthController::class, 'handleLogin']);
+    Route::delete('/logout', [EmployeeAuthController::class, 'handleLogout']);
+    Route::get('/dashboard', EmployeeDashboard::class)->name('employee.dashboard');
 });

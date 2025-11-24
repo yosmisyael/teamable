@@ -17,6 +17,8 @@ class LeaveManagement extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    public string $search = '';
+
     public bool $isReviewFormOpen = false;
     public ?int $leaveToReviewId = null;
 
@@ -79,13 +81,24 @@ class LeaveManagement extends Component
         $admin = Auth::guard('admins')->user();
         $companyId = $admin->company->id;
 
-
         $baseQuery = Leave::query()
             ->whereHas('employee.department', function ($q) use ($companyId) {
                 $q->where('company_id', $companyId);
             });
 
         $query = (clone $baseQuery)->with('employee');
+
+        // search keyword
+        if ($this->search) {
+            $searchTerm = '%' . $this->search . '%';
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('reason', 'like', $searchTerm)
+                    ->orWhereHas('employee', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', $searchTerm)
+                            ->orWhere('id', 'like', $searchTerm);
+                    });
+            });
+        }
 
         if ($this->filterStatus) {
             $query->where('status', $this->filterStatus);

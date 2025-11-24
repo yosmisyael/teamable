@@ -37,13 +37,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $company = Company::query()->create([
-            'name' => 'Stardrop Ltd.',
+            'name' => 'Stardrop Computing',
             'registered_by' =>  $admin->id,
             'address' => 'Silicon Valley, United States',
             'website' => 'www.stardrop.com',
             'founded_date' => Carbon::now(),
             'phone' => '+1 754678',
-            'description' => 'Leading AI company',
+            'description' => 'Leading AI Research Company',
             'field' => 'Technology, AI'
         ]);
 
